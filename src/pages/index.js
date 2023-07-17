@@ -15,17 +15,17 @@ function HomepageHeader() {
   const auth = async (e) => {
     e.preventDefault();
       const response = await fetch('https://goiteens-platform.vercel.app/api/authorization', {
+        headers: {
+"Accept": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+          'Content-Type': 'application/json',
+        },
         method: 'POST',
         body: JSON.stringify({
           login: e.target[0].value,
           password: e.target[1].value,
         }),
-        headers: {
-          "Accept": "application/json",
-"Access-Control-Allow-Origin": "*",
-"Access-Control-Allow-Methods": "*",
-          'Content-Type': 'application/json',
-        },
       });
       const movies = await response.json();
       console.log(movies);
