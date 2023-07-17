@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -11,16 +11,46 @@ import { useData } from '../theme/Root';
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   const {data, setData} = useData()
-  
-  const auth = (e) =>{
+
+  const auth = async (e) => {
     e.preventDefault();
-    fetch('https://goiteens-platform.vercel.app/api/authorization',{
-      method: 'POST',
-      body: JSON.stringify({"login":e.target[0].value,"password":e.target[1].value}),
-      headers: {
-        'Content-Type': 'application/json'
-      }}).then(response => response.json()).then(data2 => setData({status:data2[0].status, login:e.target[0].value, idRoom:data2[1].idRoom}));
-}
+      const response = await fetch('https://goiteens-platform.vercel.app/api/authorization', {
+        method: 'POST',
+        body: JSON.stringify({
+          login: e.target[0].value,
+          password: e.target[1].value,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const movies = await response.json();
+      console.log(movies);
+    // fetch('https://goiteens-platform.vercel.app/api/authorization', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     login: e.target[0].value,
+    //     password: e.target[1].value,
+    //   }),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data2) =>{
+    //   console.log(data2);
+    //     setData({
+    //       status: data2[0].status,
+    //       login: e.target[0].value,
+    //       idRoom: data2[1].idRoom,
+    //     })}
+    //   )
+    //   .catch((error) => {
+    //     // Handle the error here
+    //     console.error(error);
+    //   });
+  };
+
 
 return (
   <header className={clsx('hero hero--primary', styles.heroBanner)}>
